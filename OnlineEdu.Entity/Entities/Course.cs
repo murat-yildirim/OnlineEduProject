@@ -12,7 +12,7 @@ namespace OnlineEdu.Entity.Entities
         public string CourseName { get; set; }
         public string ImageUrl { get; set; }
         public int CategoryId { get; set; }
-        public CourseCategory Category { get; set; }
+        public CourseCategory CourseCategory { get; set; }
 
         public decimal Price { get; set; }
 
