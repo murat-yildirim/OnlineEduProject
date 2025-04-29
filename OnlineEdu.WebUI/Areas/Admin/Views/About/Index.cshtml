@@ -14,9 +14,9 @@
 		<th>Açıklama</th>
 		<th>Madde 1</th>
 		<th>Madde 2</th>
-		<th>Madde 2</th>
-		<th>Madde 2</th>
-		<th>Madde 2</th>
+		<th>Madde 3</th>
+		<th>Madde 4</th>
+		<th>İşlemler</th>
 	</tr>
 	@foreach(var item in Model)
 	{
@@ -32,8 +32,8 @@
 			<th>@item.Item3</th>
 			<th>@item.Item4</th>
 			<td>
-				<a asp-action="UpdateAbout" asp-controller="About" asp-area="Admin" class="btn btn-outline-danger">Sil</a>
-				<a asp-action="UpdateAbout" asp-controller="About" asp-area="Admin" class="btn btn-outline-info">Güncelle</a>
+				<a asp-action="DeleteAbout" asp-controller="About" asp-area="Admin" asp-route-id="@item.AboutId" class="btn btn-outline-danger">Sil</a>
+				<a asp-action="UpdateAbout" asp-controller="About" asp-area="Admin" asp-route-id="@item.AboutId" class="btn btn-outline-info">Güncelle</a>
 			</td>
 		</tr>
 	}
