@@ -11,6 +11,7 @@ namespace OnlineEdu.Business.Concrete
 {
     public class GenericManager<T>(IRepository<T> _repository) : IGenericService<T> where T : class
     {
+
         public int TCount()
         {
           return _repository.Count();

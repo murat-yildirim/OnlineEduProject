@@ -1,0 +1,72 @@
+﻿@model List<ResultCourseCategoryDto>
+@{
+    ViewData["Title"] = "Kurs Kategorileri";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+@{
+	int count = 0;
+}
+<table class="table table-hover">
+	<tr>
+		<th>#</th>
+		<th>Kurs Kategori Adı</th>
+		<th>Açıklama</th>
+		<th>Gösterilme Durumu</th>
+
+		<th></th>
+		<th>Ana Sayfada</th>
+	</tr>
+	@foreach (var item in Model)
+	{
+		count++;
+		<tr>
+			<th>@count</th>
+			<th>@item.Name</th>
+			<th>@item.Description</th>
+			<th>@(item.IsShown ? "Gösteriliyor":"Gösterilmiyor")</th>
+			<td>
+				<button onclick="deleteCourseCategory(@item.CourseCategoryId)" class="btn btn-outline-danger">Sil</button>
+				<a asp-action="UpdateCourseCategory" asp-controller="CourseCategory" asp-area="Admin" asp-route-id="@item.CourseCategoryId" class="btn btn-outline-info">Güncelle</a>
+
+				
+			</td>
+			<td>
+				@if (item.IsShown == true)
+				{
+
+					<a asp-action="DontShowOnHome" asp-controller="CourseCategory" asp-area="Admin" asp-route-id="@item.CourseCategoryId" class="btn btn-outline-secondary"> Gösterme</a>
+				}
+				else
+				{
+					<a asp-action="ShowOnHome" asp-controller="CourseCategory" asp-area="Admin" asp-route-id="@item.CourseCategoryId" class="btn btn-outline-success"> Göster</a>
+				}
+			</td>
+		</tr>
+	}
+</table>
+<br />
+<a asp-action="CreateCourseCategory" asp-controller="CourseCategory" asp-area="Admin" class="btn btn-outline-primary">Yeni Kurs Kategorisi Ekle</a>
+
+<script>
+	function deleteCourseCategory(id) {
+
+		Swal.fire({
+	  title: "Silmek İstediğinize Eminmisiniz ?",
+	  text: "Bu İşlemi Geri Alamazsınız!",
+	  icon: "warning",
+	  showCancelButton: true,
+	  confirmButtonColor: "#3085d6",
+	  cancelButtonColor: "#d33",
+	  confirmButtonText: "Evet, Sil !",
+	  cancelButtonText: "İptal"
+	}).then((result) => {
+	  if (result.isConfirmed) {
+		window.location.href="/Admin/CourseCategory/DeleteCourseCategory/"+id;
+	  }
+	});
+	}
+
+</script>
+
