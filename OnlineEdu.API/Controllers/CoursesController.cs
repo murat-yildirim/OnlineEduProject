@@ -64,5 +64,11 @@ namespace OnlineEdu.API.Controllers
             return Ok("Kurs Alanı Anasayfada Gösterilmiyor");
         }
 
+        [HttpGet("GetActiveCourses")]
+        public IActionResult GetActiveCourses()
+        {
+            var values = _courseService.TGetFilteredList(x => x.IsShown == true);
+            return Ok(values);
+        }
     }
 }
