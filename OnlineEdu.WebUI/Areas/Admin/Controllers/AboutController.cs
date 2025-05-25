@@ -1,12 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OnlineEdu.WebUI.DTOs.AboutDtos;
 using OnlineEdu.WebUI.Helpers;
 using System.Security.Policy;
 
 namespace OnlineEdu.WebUI.Areas.Admin.Controllers
 {
+    [Authorize(Roles ="Admin")]
     [Area("Admin")]
-    [Route("[area]/[controller]/[action]/{id?}")]
     public class AboutController: Controller
     {
       
