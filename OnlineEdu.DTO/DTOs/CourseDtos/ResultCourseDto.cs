@@ -1,4 +1,5 @@
-﻿using OnlineEdu.Entity.Entities;
+﻿using OnlineEdu.DTO.DTOs.CourseCategoryDtos;
+using OnlineEdu.Entity.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace OnlineEdu.DTO.DTOs.CourseDtos
         public string CourseName { get; set; }
         public string ImageUrl { get; set; }
         public int CourseCategoryId { get; set; }
-        public ResultCourseDto CourseCategory { get; set; }
+        public ResultCourseCategoryDto CourseCategory { get; set; }
 
         public decimal Price { get; set; }
 

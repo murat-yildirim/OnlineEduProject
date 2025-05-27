@@ -15,8 +15,9 @@ namespace OnlineEdu.API.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var values = _courseService.TGetList();
-            return Ok(values);
+            var values = _courseService.TGetAllCoursesWithCategories();
+            var courses = _mapper.Map<List<ResultCourseDto>>(values);
+            return Ok(courses);
         }
 
         [HttpGet("{id}")]
@@ -74,7 +75,7 @@ namespace OnlineEdu.API.Controllers
         [HttpGet("GetCoursesByTeacherId/{id}")]
         public IActionResult GetCoursesByTeacherId(int id)
         {
-            var values = _courseService.TGetFilteredList(x => x.AppUserId == id);
+            var values = _courseService.TGetCourseByTeacherId(id);
             var mappedValues = _mapper.Map<List<ResultCourseDto>>(values);
             return Ok(values);
         }
