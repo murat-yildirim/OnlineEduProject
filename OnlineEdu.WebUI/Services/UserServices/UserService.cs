@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OnlineEdu.Entity.Entities;
 using OnlineEdu.WebUI.DTOs.UserDtos;
 
 namespace OnlineEdu.WebUI.Services.UserServices
 {
-    public class UserService(UserManager<AppUser> _userManager, SignInManager<AppUser> _signInManager, RoleManager<AppRole> _roleManager) : IUserServices
+    public class UserService(UserManager<AppUser> _userManager, SignInManager<AppUser> _signInManager, RoleManager<AppRole> _roleManager, IMapper _mapper) : IUserServices
     {
         public async Task<bool> AssignRoleAsync(List<AssignRoleDto> assignRoleDto)
         {
@@ -31,13 +32,24 @@ namespace OnlineEdu.WebUI.Services.UserServices
                 return new IdentityResult();
 
             }
-            var result =  await _userManager.CreateAsync(user, userRegisterDto.Password);
+            var result = await _userManager.CreateAsync(user, userRegisterDto.Password);
             if (result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(user, "Student");
                 return result;
             }
             return result;
+
+        }
+
+        public async Task<List<ResultUserDto>> Get4Teachers()
+        {
+            var users = await _userManager.Users.Include(x=>x.TeacherSocials).ToListAsync();
+
+            var teachers = users.Where(user => _userManager.IsInRoleAsync(user, "Teacher").Result).OrderByDescending(x=>x.Id).Take(4).ToList();
+
+
+            return _mapper.Map<List<ResultUserDto>>(teachers);
 
         }
 
@@ -72,14 +84,14 @@ namespace OnlineEdu.WebUI.Services.UserServices
                 if (IsAdmin) { return "Admin"; }
 
                 var IsTeacher = await _userManager.IsInRoleAsync(user, "Teacher");
-                if (IsTeacher){ return "Teacher"; }
+                if (IsTeacher) { return "Teacher"; }
 
                 var IsStudent = await _userManager.IsInRoleAsync(user, "Student");
-                if (IsStudent){ return "Student"; }
+                if (IsStudent) { return "Student"; }
             }
 
             return null;
-            
+
 
 
 
