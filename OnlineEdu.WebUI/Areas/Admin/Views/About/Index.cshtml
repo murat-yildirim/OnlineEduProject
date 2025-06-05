@@ -32,7 +32,7 @@
 			<th>@item.Item3</th>
 			<th>@item.Item4</th>
 			<td>
-				<a asp-action="DeleteAbout" asp-controller="About" asp-area="Admin" asp-route-id="@item.AboutId" class="btn btn-outline-danger">Sil</a>
+				<button onclick="deleteAbout(@item.AboutId)" class="btn btn-outline-danger">Sil</button>
 				<a asp-action="UpdateAbout" asp-controller="About" asp-area="Admin" asp-route-id="@item.AboutId" class="btn btn-outline-info">Güncelle</a>
 			</td>
 		</tr>
@@ -40,3 +40,25 @@
 </table>
 <br />
 <a asp-action="CreateAbout" asp-controller="About" asp-area="Admin" class="btn btn-outline-primary">Yeni Hakkımda Ekle</a>
+
+
+<script>
+	function DeleteAbout(id) {
+
+		Swal.fire({
+	  title: "Silmek İstediğinize Eminmisiniz ?",
+	  text: "Bu İşlemi Geri Alamazsınız!",
+	  icon: "warning",
+	  showCancelButton: true,
+	  confirmButtonColor: "#3085d6",
+	  cancelButtonColor: "#d33",
+	  confirmButtonText: "Evet, Sil !",
+	  cancelButtonText: "İptal"
+	}).then((result) => {
+	  if (result.isConfirmed) {
+		window.location.href="/Admin/About/DeleteAbout/"+id;
+	  }
+	});
+	}
+
+</script>
