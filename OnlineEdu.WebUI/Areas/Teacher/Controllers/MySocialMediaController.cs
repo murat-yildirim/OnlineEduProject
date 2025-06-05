@@ -7,7 +7,8 @@ using OnlineEdu.WebUI.Helpers;
 
 namespace OnlineEdu.WebUI.Areas.Teacher.Controllers
 {
-    public class MyTeacherSocialController(UserManager<AppUser> _userManager) : Controller
+    [Area("Teacher")]
+    public class MySocialMediaController(UserManager<AppUser> _userManager) : Controller
     {
         private readonly HttpClient _client = HttpClientInstance.CreateClient();
         public async Task<IActionResult> Index()
