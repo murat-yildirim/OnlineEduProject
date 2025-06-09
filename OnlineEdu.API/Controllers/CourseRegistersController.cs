@@ -9,12 +9,12 @@ namespace OnlineEdu.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CourseRegistersController(IGenericService<CourseRegister> _courseRegisterSevice, IMapper _mapper) : ControllerBase
+    public class CourseRegistersController(ICourseRegisterService _courseRegisterSevice, IMapper _mapper) : ControllerBase
     {
         [HttpGet("GetMyCourses/{userId}")]
         public IActionResult GetMyCourses(int userId)
         {
-            var values = _courseRegisterSevice.TGetFilteredList(x => x.AppUserId == userId);
+            var values = _courseRegisterSevice.TGetAllWithCourseAndCategory(x => x.AppUserId == userId);
             var mappedValues = _mapper.Map<List<ResultCourseRegisterDto>>(values);
             return Ok(mappedValues);
         }
