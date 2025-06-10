@@ -10,7 +10,7 @@ namespace OnlineEdu.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CoursesController(ICourseService _courseService,IMapper _mapper) : ControllerBase
+    public class CoursesController(ICourseService _courseService, IMapper _mapper) : ControllerBase
     {
         [HttpGet]
         public IActionResult Get()
@@ -85,6 +85,13 @@ namespace OnlineEdu.API.Controllers
         {
             var courseCount = _courseService.TCount();
             return Ok(courseCount);
+        }
+
+        [HttpGet("GetCoursesByCategoryId/{id}")]
+        public IActionResult GetCoursesByCategoryId(int id)
+        {
+            var values = _courseService.TGetAllCoursesWithCategories(x => x.CourseCategoryId == id);
+            return Ok(values);
         }
     }
 }
