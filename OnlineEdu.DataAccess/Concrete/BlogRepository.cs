@@ -15,22 +15,27 @@ namespace OnlineEdu.DataAccess.Concrete
     {
         public BlogRepository(OnlineEduContext _context) : base(_context)
         {
-           
+
         }
 
         public List<Blog> GetBlogsWithCategories()
         {
-            return _context.Blogs.Include(x => x.BlogCategory).Include(x=>x.Writer).ToList();
+            return _context.Blogs.Include(x => x.BlogCategory).Include(x => x.Writer).ToList();
         }
 
         public List<Blog> GetBlogsWithCategoriesByWriterId(int id)
         {
-           return _context.Blogs.Include(x=>x.BlogCategory).Where(x => x.WriterId == id).ToList();
+            return _context.Blogs.Include(x => x.BlogCategory).Where(x => x.WriterId == id).ToList();
+        }
+
+        public Blog GetBlogsWithCategory(int id)
+        {
+            return _context.Blogs.Include(x => x.BlogCategory).Include(x => x.Writer).ThenInclude(x=>x.TeacherSocials).FirstOrDefault(x => x.BlogId == id);
         }
 
         public List<Blog> GetLast4BlogsWithCategories()
         {
-            return _context.Blogs.Include(x=>x.BlogCategory).OrderByDescending(x=>x.BlogId).Take(4).ToList();
+            return _context.Blogs.Include(x => x.BlogCategory).OrderByDescending(x => x.BlogId).Take(4).ToList();
         }
     }
 }
