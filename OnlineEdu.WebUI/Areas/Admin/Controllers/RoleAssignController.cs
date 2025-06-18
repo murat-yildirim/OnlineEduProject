@@ -16,7 +16,6 @@ namespace OnlineEdu.WebUI.Areas.Admin.Controllers
         public async Task<IActionResult> Index()
         {
             var values = await _userService.GetAllUsersAsync();
-            var userRoles = await _userManager.GetRolesAsync(values.FirstOrDefault());
             var userList = (from user in values
                             select new UserViewModel
                             {
