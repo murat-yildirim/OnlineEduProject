@@ -1,8 +1,7 @@
-﻿@using OnlineEdu.Entity.Entities
-@model List<AppUser>
+﻿@model List<UserViewModel>
 @{
-    ViewData["Title"] = "Kullanıcı Listesi";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+	ViewData["Title"] = "Kullanıcı Listesi";
+	Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 @{
@@ -13,6 +12,7 @@
 		<th>#</th>
 		<th>Ad Soyad</th>
 		<th>Kullanıcı Adı</th>
+		<th>Roller</th>
 
 
 	</tr>
@@ -21,8 +21,14 @@
 		count++;
 		<tr>
 			<th>@count</th>
-			<th>@item.FirstName @item.LastName</th>
+			<th>@item.NameSurname</th>
 			<th>@item.UserName</th>
+			<td>
+				@foreach(var role in item.Roles)
+				{
+					<span class="badge bg-dark text-white">@role</span>
+				}
+			</td>
 
 			<td>
 				

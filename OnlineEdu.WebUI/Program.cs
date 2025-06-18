@@ -22,7 +22,7 @@ builder.Services.AddHttpClient();
 builder.Services.ConfigureApplicationCookie(cfg =>
 {
     cfg.LoginPath = "/Login/SignIn";
-    cfg.LogoutPath = "/Login/SignOut";
+    cfg.LogoutPath = "/Login/Logout";
     cfg.AccessDeniedPath = "/ErrorPage/AccessDenied";
 
 });

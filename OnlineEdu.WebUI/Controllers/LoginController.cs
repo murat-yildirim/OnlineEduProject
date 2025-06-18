@@ -37,5 +37,11 @@ namespace OnlineEdu.WebUI.Controllers
             }
 
         }
+
+        public async Task<IActionResult> Logout()
+        {
+            await _userService.LogoutAsync();
+            return RedirectToAction("Index", "Home");
+        }
     }
 }
