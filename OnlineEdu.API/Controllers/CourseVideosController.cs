@@ -18,6 +18,13 @@ namespace OnlineEdu.API.Controllers
             return Ok(values);
         }
 
+        [HttpGet("GetCourseVideosByCourseId/{id}")]
+        public IActionResult GetCourseVideosByCourseId(int id)
+        {
+            var values = _courseService.TGetFilteredList(X=>X.CourseId==id);
+            return Ok(values);
+        }
+
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {

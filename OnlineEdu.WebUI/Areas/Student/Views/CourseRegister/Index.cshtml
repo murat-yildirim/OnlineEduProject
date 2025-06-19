@@ -12,7 +12,7 @@
 		<th>#</th>
 		<th>Resim</th>
 		<th>Kurs Adı</th>
-		<th>Fiyat</th>
+		<th>Eğitmen</th>
 		<th>Kategori</th>
 
 
@@ -26,12 +26,12 @@
 			<th>@count</th>
 			<th><img src="@item.Course.ImageUrl" style="height:75px; width:75px" /></th>
 			<th>@item.Course.CourseName</th>
-			<th>@item.Course.Price ₺</th>
+			<th>@item.Course.AppUser.FirstName @item.Course.AppUser.LastName</th>
 			<th>@item.Course.CourseCategory.Name</th>
 
 			<td>
-				<button onclick="deleteTeacherCourse(@item.CourseId)" class="btn btn-outline-danger">Sil</button>
-				<a asp-action="UpdateCourse" asp-controller="MyCourse" asp-area="Teacher" asp-route-id="@item.CourseId" class="btn btn-outline-info">Güncelle</a>
+
+				<a asp-action="CourseVideos" asp-controller="CourseRegister" asp-area="Student" asp-route-id="@item.CourseId" class="btn btn-outline-info">Kurs Videoları</a>
 
 
 			</td>
@@ -40,28 +40,9 @@
 	}
 </table>
 <br />
-<a asp-action="RegisterCourse" asp-controller="CourseRegister" asp-area="Student" class="btn btn-outline-primary">Yeni Kurs Ekle</a>
+<a asp-action="RegisterCourse" asp-controller="CourseRegister" asp-area="Student" class="btn btn-outline-primary">Yeni Kursa Kaydol</a>
 
-<script>
-	function deleteStudentCourse(id) {
 
-		Swal.fire({
-	  title: "Silmek İstediğinize Eminmisiniz ?",
-	  text: "Bu İşlemi Geri Alamazsınız!",
-	  icon: "warning",
-	  showCancelButton: true,
-	  confirmButtonColor: "#3085d6",
-	  cancelButtonColor: "#d33",
-	  confirmButtonText: "Evet, Sil !",
-	  cancelButtonText: "İptal"
-	}).then((result) => {
-	  if (result.isConfirmed) {
-		window.location.href="/Student/CourseRegister/DeleteCourseRegister/"+id;
-	  }
-	});
-	}
-
-</script>
 
 
 
