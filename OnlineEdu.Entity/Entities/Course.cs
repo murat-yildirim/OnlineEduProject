@@ -12,7 +12,7 @@ namespace OnlineEdu.Entity.Entities
         public string CourseName { get; set; }
         public string ImageUrl { get; set; }
         public int CourseCategoryId { get; set; }
-        public CourseCategory CourseCategory { get; set; }
+        public virtual CourseCategory CourseCategory { get; set; }
 
         public decimal Price { get; set; }
 
@@ -20,10 +20,10 @@ namespace OnlineEdu.Entity.Entities
 
         public int? AppUserId { get; set; }
 
-        public AppUser AppUser { get; set; }
+        public virtual AppUser AppUser { get; set; } // virtual ekledik, lazy loading için
 
-        public List<CourseRegister> CourseRegisters { get; set; }
-        public List<CourseVideo> CourseVideos { get; set; }
+        public virtual List<CourseRegister> CourseRegisters { get; set; }
+        public virtual List<CourseVideo> CourseVideos { get; set; }
 
     }
 }
