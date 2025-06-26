@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OnlineEdu.Business.Abstract;
@@ -9,7 +10,7 @@ namespace OnlineEdu.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController(UserManager<AppUser> _userManager, SignInManager<AppUser> _signInManager, IJwtService _jwtService) : ControllerBase
+    public class UsersController(UserManager<AppUser> _userManager, SignInManager<AppUser> _signInManager, IJwtService _jwtService, IMapper _mapper) : ControllerBase
     {
 
         [HttpPost("login")]
@@ -22,13 +23,36 @@ namespace OnlineEdu.API.Controllers
             }
 
             var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
-            if(!result.Succeeded)
+            if (!result.Succeeded)
             {
                 return BadRequest("Kullanıcı Adı veya Şifre Hatalı");
             }
 
             var token = await _jwtService.CreateTokenAsync(user);
             return Ok(token);
+        }
+
+        [HttpPost("register")]
+        public async Task<IActionResult> Register(RegisterDto model)
+        {
+            var user = _mapper.Map<AppUser>(model);
+
+            if (ModelState.IsValid)
+            {
+                var result = await _userManager.CreateAsync(user, model.Password);
+
+                if (!result.Succeeded)
+                {
+                    return BadRequest(result.Errors);
+                }
+                await _userManager.AddToRoleAsync(user, "Student");
+                return Ok("Kayıt Başarılı");
+
+            }
+
+
+            return BadRequest();
+
         }
     }
 }
