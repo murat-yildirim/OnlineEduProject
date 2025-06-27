@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OnlineEdu.Business.Abstract;
@@ -7,10 +8,12 @@ using OnlineEdu.Entity.Entities;
 
 namespace OnlineEdu.API.Controllers
 {
+    [Authorize(Roles = "Admin,Student")]
     [Route("api/[controller]")]
     [ApiController]
     public class CourseRegistersController(ICourseRegisterService _courseRegisterSevice, IMapper _mapper) : ControllerBase
     {
+       
         [HttpGet("GetMyCourses/{userId}")]
         public IActionResult GetMyCourses(int userId)
         {
@@ -18,6 +21,7 @@ namespace OnlineEdu.API.Controllers
             var mappedValues = _mapper.Map<List<ResultCourseRegisterDto>>(values);
             return Ok(mappedValues);
         }
+
 
         [HttpPost]
         public IActionResult RegisterToCourse(CreateCourseRegisterDto model)
