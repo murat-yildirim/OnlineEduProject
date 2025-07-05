@@ -10,9 +10,16 @@ using OnlineEdu.WebUI.Services.TokenServices;
 namespace OnlineEdu.WebUI.Areas.Teacher.Controllers
 {
     [Area("Teacher")]
-    public class MyBlogController(ITokenService _tokenService) : Controller
+    public class MyBlogController : Controller
     {
-        private readonly HttpClient _client = HttpClientInstance.CreateClient();
+        private readonly HttpClient _client;
+        private readonly ITokenService _tokenService;
+
+        public MyBlogController(IHttpClientFactory clientFactory, ITokenService tokenService)
+        {
+            _client = clientFactory.CreateClient("EduClient");
+            _tokenService = tokenService;
+        }
 
         public async Task<IActionResult> Index()
         {

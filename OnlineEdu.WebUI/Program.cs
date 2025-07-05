@@ -7,6 +7,7 @@ using OnlineEdu.WebUI.Services.RoleServices;
 using OnlineEdu.WebUI.Services.TokenServices;
 using OnlineEdu.WebUI.Services.UserServices;
 using OnlineEdu.WebUI.Validators;
+using System.Net.Http.Headers;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,7 +20,17 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 
 
 
-builder.Services.AddHttpClient();
+builder.Services.AddHttpClient("EduClient",cfg=>
+{
+    var tokenService = builder.Services.BuildServiceProvider().GetRequiredService<ITokenService>();
+    var token = tokenService.GetUserToken;
+    cfg.BaseAddress = new Uri("https://localhost:7268/api/");
+    if(token !=null)
+    {
+        cfg.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenService.GetUserToken);
+    }
+   
+});
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddCookie(JwtBearerDefaults.AuthenticationScheme, opt =>
 {

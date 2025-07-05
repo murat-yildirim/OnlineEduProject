@@ -4,9 +4,16 @@ using OnlineEdu.WebUI.Services.UserServices;
 
 namespace OnlineEdu.WebUI.ViewComponents.Home
 {
-    public class _HomeCounterComponent(IUserServices _userService) : ViewComponent
+    public class _HomeCounterComponent : ViewComponent
     {
-        private readonly HttpClient _client = HttpClientInstance.CreateClient();
+        private readonly HttpClient _client;
+        private readonly IUserServices _userService;
+
+        public _HomeCounterComponent(IHttpClientFactory clientFactory,IUserServices userServices)
+        {
+            _client = clientFactory.CreateClient("EduClient");
+            _userService = userServices;
+        }
         public async Task<IViewComponentResult> InvokeAsync()
         {
             ViewBag.blogCount = await _client.GetFromJsonAsync<int>("blogs/GetBlogCount");
@@ -14,7 +21,7 @@ namespace OnlineEdu.WebUI.ViewComponents.Home
             ViewBag.courseCategoryCount = await _client.GetFromJsonAsync<int>("courseCategories/GetCourseCategoryCount");
             ViewBag.testimonialCount = await _client.GetFromJsonAsync<int>("testimonials/GetTestimonialCount");
 
-            
+
             return View();
         }
     }
