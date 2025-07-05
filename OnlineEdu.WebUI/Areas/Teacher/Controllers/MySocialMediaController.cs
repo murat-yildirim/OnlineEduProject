@@ -4,17 +4,18 @@ using OnlineEdu.Entity.Entities;
 using OnlineEdu.WebUI.DTOs.TeacherSocialDtos;
 using OnlineEdu.WebUI.DTOs.TeacherSocialDtos;
 using OnlineEdu.WebUI.Helpers;
+using OnlineEdu.WebUI.Services.TokenServices;
 
 namespace OnlineEdu.WebUI.Areas.Teacher.Controllers
 {
     [Area("Teacher")]
-    public class MySocialMediaController(UserManager<AppUser> _userManager) : Controller
+    public class MySocialMediaController(ITokenService _tokenService) : Controller
     {
         private readonly HttpClient _client = HttpClientInstance.CreateClient();
         public async Task<IActionResult> Index()
         {
-            var user = await _userManager.FindByNameAsync(User.Identity.Name);
-            var values = await _client.GetFromJsonAsync<List<ResultTeacherSocialDto>>("teachersocials/byTeacherId/" + user.Id);
+            var userId = _tokenService.GetUserId;
+            var values = await _client.GetFromJsonAsync<List<ResultTeacherSocialDto>>("teachersocials/byTeacherId/" + userId);
             return View(values);
         }
 
@@ -33,8 +34,8 @@ namespace OnlineEdu.WebUI.Areas.Teacher.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateTeacherSocial(CreateTeacherSocialDto createTeacherSocialDto)
         {
-            var user = await _userManager.FindByNameAsync(User.Identity.Name);
-            createTeacherSocialDto.TeacherId = user.Id;
+            var userId = _tokenService.GetUserId;
+            createTeacherSocialDto.TeacherId =  userId;
             await _client.PostAsJsonAsync("teachersocials", createTeacherSocialDto);
             return RedirectToAction(nameof(Index));
         }
